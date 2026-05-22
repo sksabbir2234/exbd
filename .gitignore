@@ -20,14 +20,42 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
 # Virtual Environment
 venv/
-env/
 ENV/
+env/
 .venv/
-.env/
+env.bak/
+venv.bak/
+
+# Database
+*.sqlite
+*.sqlite3
+.dynamodb/
+
+# Logs
+*.log
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage/
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Alembic
+alembic/versions/*.py
 
 # IDE
 .vscode/
@@ -35,28 +63,6 @@ ENV/
 *.swp
 *.swo
 *.tmp
-
-# Logs
-*.log
-
-# Environment variables
-.env
-.env.local
-.env.*
-
-# Coverage
-.coverage
-htmlcov/
-.coverage.*
-.cache
-
-# Alembic
-alembic/versions/*.py
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
 
 # OS
 .DS_Store
