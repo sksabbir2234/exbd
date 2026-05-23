@@ -10,7 +10,7 @@ alembic==1.13.1
 
 # PostgreSQL async driver
 psycopg2-binary==2.9.9
-psycopg[binary,pool]==3.2.0
+psycopg[binary,pool]==3.2.4
 
 # Auth
 python-jose[cryptography]==3.3.0

@@ -1,6 +1,12 @@
 """Alembic migration environment configuration."""
 
 from logging.config import fileConfig
+import sys
+import asyncio
+
+# Fix for Windows async event loop compatibility
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
@@ -8,9 +14,12 @@ from sqlalchemy import pool
 from alembic import context
 
 # Import your models' Base
-import sys
 sys.path.append('.')
 from database.connection import Base
+
+# Import all models so they register on Base.metadata
+import models  # noqa: F401
+
 from config.settings import get_settings
 
 # this is the Alembic Config object

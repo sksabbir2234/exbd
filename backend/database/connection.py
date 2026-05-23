@@ -1,6 +1,13 @@
 """
 Database Configuration
 """
+import sys
+import asyncio
+
+# Fix for Windows async event loop compatibility
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import declarative_base
 from config.settings import get_settings
