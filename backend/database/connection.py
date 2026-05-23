@@ -14,18 +14,24 @@ from config.settings import get_settings
 
 settings = get_settings()
 
-# Create async engine with psycopg3 async driver
-# Format: postgresql+psycopg://user:password@host:port/dbname
+# Determine database URL
 db_url = settings.DATABASE_URL
-if db_url.startswith("postgresql://"):
+
+# Use SQLite for local dev when PostgreSQL is unreachable
+if settings.USE_SQLITE:
+    db_url = "sqlite+aiosqlite:///./examprepbd.db"
+    connect_args = {"check_same_thread": False}
+elif db_url.startswith("postgresql://"):
     db_url = db_url.replace("postgresql://", "postgresql+psycopg://", 1)
+    connect_args = {}
+else:
+    connect_args = {}
 
 engine = create_async_engine(
     db_url,
     echo=settings.DEBUG,
     pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
+    connect_args=connect_args,
 )
 
 # Session factory
@@ -42,7 +48,6 @@ Base = declarative_base()
 
 
 async def get_db() -> AsyncSession:
-    """Dependency to get database session"""
     async with AsyncSessionLocal() as session:
         try:
             yield session
@@ -51,11 +56,9 @@ async def get_db() -> AsyncSession:
 
 
 async def init_db():
-    """Initialize database tables"""
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
 
 async def close_db():
-    """Close database connection"""
     await engine.dispose()

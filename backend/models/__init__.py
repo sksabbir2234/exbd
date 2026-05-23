@@ -278,7 +278,7 @@ class Lesson(Base):
     
     # Relationships
     topic: Mapped["Topic"] = relationship("Topic", back_populates="lessons")
-    tags: Mapped[list["Tag"]] = relationship("Tag", secondary=lesson_tags)
+    tags: Mapped[list["Tag"]] = relationship("Tag", secondary=lesson_tags, overlaps="lessons,articles")
     flashcards: Mapped[list["Flashcard"]] = relationship(
         "Flashcard", back_populates="lesson", cascade="all, delete-orphan"
     )
@@ -512,9 +512,9 @@ class Tag(Base):
     )
     
     # Relationships
-    lessons: Mapped[list["Lesson"]] = relationship("Lesson", secondary=lesson_tags)
-    articles: Mapped[list["Article"]] = relationship("Article", secondary=article_tags)
+    lessons: Mapped[list["Lesson"]] = relationship("Lesson", secondary=lesson_tags, overlaps="tags")
 
+    articles: Mapped[list["Article"]] = relationship("Article", secondary=article_tags, overlaps="tags")
 
 class Article(Base):
     __tablename__ = "articles"
@@ -544,7 +544,7 @@ class Article(Base):
     # Relationships
     source: Mapped["Source"] = relationship("Source", back_populates="articles")
     category: Mapped["Category"] = relationship("Category", back_populates="articles")
-    tags: Mapped[list["Tag"]] = relationship("Tag", secondary=article_tags)
+    tags: Mapped[list["Tag"]] = relationship("Tag", secondary=article_tags, overlaps="articles")
     views: Mapped[list["ArticleView"]] = relationship(
         "ArticleView", back_populates="article", cascade="all, delete-orphan"
     )

@@ -36,6 +36,9 @@ apscheduler==3.10.4
 # Redis
 redis==5.0.1
 
+# SQLite (local dev)
+aiosqlite==0.20.0
+
 # Utilities
 python-dotenv==1.0.0
 structlog==24.1.0

@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = "postgresql://user:password@localhost:5432/examprepbd"
+    USE_SQLITE: bool = False
     
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
